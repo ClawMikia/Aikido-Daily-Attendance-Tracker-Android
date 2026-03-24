@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Main App Theme -->
+    <style name="Theme.SessionTracker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/indigo</item>
+        <item name="colorPrimaryVariant">@color/indigo</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <item name="android:statusBarColor">@color/black_card</item>
+        <item name="android:navigationBarColor">@color/black_card</item>
+    </style>
+
+    <!-- Calendar Theme -->
+    <style name="MaterialCalendarTheme" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="colorPrimary">@color/indigo</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="materialCalendarStyle">@style/CustomCalendar</item>
+    </style>
+
+    <style name="CustomCalendar" parent="Widget.MaterialComponents.MaterialCalendar">
+        <item name="android:background">@color/black_card</item>
+    </style>
+
+</resources>
