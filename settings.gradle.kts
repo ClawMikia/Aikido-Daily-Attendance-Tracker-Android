@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Daily Session Tracker - CLC"
+rootProject.name = "Aikido Philippines Shusseki (出席)"
 include(":app")
  

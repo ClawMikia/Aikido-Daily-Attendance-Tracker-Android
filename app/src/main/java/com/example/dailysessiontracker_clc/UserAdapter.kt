@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +16,7 @@ class UserAdapter(
     private val context: AppCompatActivity,
     private val userList: MutableList<MutableMap<String?, String?>>,
     private val db: DatabaseHelper,
+    private val getCurrentName: () -> String,
     private val onUpdateCallback: () -> Unit
 ) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
@@ -41,6 +43,17 @@ class UserAdapter(
 
         holder.dateText.text = "${position + 1}. $displayDate"
 
+        // --- Paid Status ---
+        holder.cbPaid.setOnCheckedChangeListener(null)
+        holder.cbPaid.isChecked = user["paid"] == "1"
+        holder.cbPaid.setOnCheckedChangeListener { _, isChecked ->
+            val id = user["id"]
+            if (id != null) {
+                db.updatePaidStatus(id, isChecked)
+                user["paid"] = if (isChecked) "1" else "0"
+            }
+        }
+
         // --- Edit Button Click (Material Date Picker) ---
         holder.btnEdit.setOnClickListener { view ->
 
@@ -64,7 +77,8 @@ class UserAdapter(
 
                 val id = user["id"]
                 if (id != null) {
-                    db.updateDate(id, formattedDate)
+                    val currentName = getCurrentName()
+                    db.updateData(id, currentName, formattedDate)
                     onUpdateCallback()
                 }
             }
@@ -76,5 +90,6 @@ class UserAdapter(
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val dateText: TextView = itemView.findViewById(R.id.txtDate)
         val btnEdit: Button = itemView.findViewById(R.id.btnEditItem)
+        val cbPaid: CheckBox = itemView.findViewById(R.id.cbPaid)
     }
 }

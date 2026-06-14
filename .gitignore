@@ -1,3 +1,4 @@
+# Android Studio / IntelliJ
 *.iml
 .gradle
 /local.properties
@@ -7,9 +8,32 @@
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
+/.idea/shelf
+/.idea/vcs.xml
+/.idea/runConfigurations
 .DS_Store
-/build
+
+# Build artifacts
+**/build/
 /captures
+
+# External Native Build
 .externalNativeBuild
 .cxx
+cmake_install.cmake
+CMakeCache.txt
+CMakeFiles/
+Makefile
+rules.ninja
+
+# Local environment
 local.properties
+
+# Secrets
+**/google-services.json
+
+# Log files
+*.log
+
+# Android profiling
+*.hprof

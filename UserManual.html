@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aikido Tracker - User's Manual</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1E1E1E;
+            --primary-color: #3F51B5;
+            --primary-light: #9FA8DA;
+            --text-white: #FFFFFF;
+            --text-gray: #B0B0B0;
+            --sidebar-width: 250px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-white);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--card-bg);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 2rem 1rem;
+            border-right: 1px solid #333;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar h2 {
+            color: var(--primary-light);
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 1rem;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 1rem;
+        }
+
+        .sidebar ul li a {
+            color: var(--text-gray);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar ul li a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar ul li a:hover, .sidebar ul li a.active {
+            background-color: var(--primary-color);
+            color: var(--text-white);
+        }
+
+        /* Main Content Styling */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 3rem;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 3rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-light);
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-light);
+            border-left: 4px solid var(--primary-color);
+            padding-left: 15px;
+        }
+
+        p {
+            color: var(--text-gray);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border: 1px solid #333;
+        }
+
+        .feature-card h4 {
+            color: var(--text-white);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-card h4 i {
+            margin-right: 10px;
+            color: var(--primary-light);
+        }
+
+        /* App Screenshot Mockups */
+        .screenshot-container {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+            perspective: 1000px;
+        }
+
+        .app-mockup {
+            width: 320px;
+            height: 600px;
+            background-color: var(--bg-color);
+            border: 8px solid #333;
+            border-radius: 36px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .app-mockup .status-bar {
+            height: 25px;
+            background-color: var(--card-bg);
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 15px;
+            font-size: 10px;
+            color: #888;
+        }
+
+        .app-mockup .toolbar {
+            height: 56px;
+            background-color: var(--card-bg);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .app-mockup .content {
+            padding: 20px;
+        }
+
+        .mock-text-view {
+            font-size: 14px;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .mock-edit-text {
+            width: 100%;
+            padding: 10px;
+            background-color: transparent;
+            border: none;
+            border-bottom: 2px solid var(--primary-color);
+            color: white;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .mock-button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+            cursor: default;
+        }
+
+        .mock-history-title {
+            color: #AAA;
+            font-size: 12px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .mock-item-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .mock-item-date {
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .mock-item-btn {
+            font-size: 10px;
+            background-color: var(--primary-color);
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 1.5rem;
+            }
+            .mobile-nav-toggle {
+                display: block;
+                position: fixed;
+                top: 15px;
+                right: 15px;
+                background: var(--primary-color);
+                color: white;
+                padding: 10px;
+                border-radius: 5px;
+                z-index: 1001;
+                cursor: pointer;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-nav-toggle {
+                display: none;
+            }
+        }
+
+        .highlight {
+            color: var(--primary-light);
+            font-weight: bold;
+        }
+
+        code {
+            background-color: #333;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: var(--primary-light);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('active')">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <nav class="sidebar">
+        <h2>Aikido Tracker</h2>
+        <ul>
+            <li><a href="#intro" class="active"><i class="fas fa-home"></i> Introduction</a></li>
+            <li><a href="#getting-started"><i class="fas fa-play"></i> Getting Started</a></li>
+            <li><a href="#features"><i class="fas fa-star"></i> Features</a></li>
+            <li><a href="#interface"><i class="fas fa-mobile-alt"></i> App Interface</a></li>
+            <li><a href="#data-management"><i class="fas fa-file-export"></i> Data Management</a></li>
+        </ul>
+    </nav>
+
+    <div class="main-content">
+        <section id="intro">
+            <h1>Aikido Tracker</h1>
+            <p>Welcome to the <strong>Aikido Tracker</strong> user's manual. This application is designed to help Aikido practitioners keep track of their sessions, maintain a consistent practice history, and export their progress for long-term recording.</p>
+            
+            <div class="feature-card">
+                <h4><i class="fas fa-check-circle"></i> Simple & Efficient</h4>
+                <p>Designed with a dark, aesthetic UI that matches the focus and discipline of Aikido training. Record your attendance with just a single tap.</p>
+            </div>
+        </section>
+
+        <section id="getting-started">
+            <h3>Getting Started</h3>
+            <p>When you first open the app, you will be greeted by the Dashboard. To begin tracking your sessions, follow these steps:</p>
+            <ol style="margin-left: 20px; color: var(--text-gray); line-height: 2;">
+                <li>Enter your <span class="highlight">Full Name</span> in the input field.</li>
+                <li>Tap the <span class="highlight">"Mark Attendance"</span> button.</li>
+                <li>Once your name is set, the input field will hide to keep the UI clean, and your name will appear in the session counter.</li>
+            </ol>
+
+            <div class="screenshot-container">
+                <div class="app-mockup">
+                    <div class="status-bar">
+                        <i class="fas fa-wifi" style="margin-right: 5px;"></i>
+                        <i class="fas fa-battery-full" style="margin-right: 5px;"></i>
+                        <span>12:00 PM</span>
+                    </div>
+                    <div class="toolbar">Aikido Tracker</div>
+                    <div class="content">
+                        <div class="mock-text-view" style="font-weight: bold; font-size: 16px;">Total Sessions Attended: 0</div>
+                        <div class="mock-edit-text">Enter Name</div>
+                        <div class="mock-button">Mark Attendance</div>
+                        <div class="mock-button" style="opacity: 0.6;">Export Record</div>
+                        <div class="mock-history-title">Attendance History</div>
+                        <p style="font-size: 12px; text-align: center; margin-top: 20px;">No history yet.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features">
+            <h3>Core Features</h3>
+            
+            <div class="feature-card">
+                <h4><i class="fas fa-calendar-plus"></i> Session Tracking</h4>
+                <p>Every time you practice, tap "Mark Attendance". The app automatically records the current date and increments your total session count.</p>
+            </div>
+
+            <div class="feature-card">
+                <h4><i class="fas fa-history"></i> Practice History</h4>
+                <p>All your sessions are listed in the history section. Each entry shows the date of the session in a clear, card-based layout.</p>
+            </div>
+
+            <div class="feature-card">
+                <h4><i class="fas fa-edit"></i> Edit Records</h4>
+                <p>Made a mistake or forgot to record a session on a specific date? You can tap the <strong>Edit</strong> button on any history item to modify the recorded date.</p>
+            </div>
+        </section>
+
+        <section id="interface">
+            <h3>App Interface</h3>
+            <p>The interface is designed for high visibility and ease of use during training sessions.</p>
+            
+            <div class="screenshot-container">
+                <div class="app-mockup">
+                    <div class="status-bar">
+                        <i class="fas fa-wifi" style="margin-right: 5px;"></i>
+                        <i class="fas fa-battery-full" style="margin-right: 5px;"></i>
+                        <span>12:05 PM</span>
+                    </div>
+                    <div class="toolbar">Aikido Tracker</div>
+                    <div class="content">
+                        <div class="mock-text-view" style="font-weight: bold; font-size: 16px;">Total Sessions for John Doe: 5</div>
+                        <div class="mock-button">Mark Attendance</div>
+                        <div class="mock-button">Export Record</div>
+                        <div class="mock-history-title">Attendance History</div>
+                        
+                        <div class="mock-item-card">
+                            <div class="mock-item-date">2026-03-26</div>
+                            <div class="mock-item-btn">Edit</div>
+                        </div>
+                        <div class="mock-item-card">
+                            <div class="mock-item-date">2026-03-24</div>
+                            <div class="mock-item-btn">Edit</div>
+                        </div>
+                        <div class="mock-item-card">
+                            <div class="mock-item-date">2026-03-21</div>
+                            <div class="mock-item-btn">Edit</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p><strong>Dashboard Components:</strong></p>
+            <ul style="margin-left: 20px; color: var(--text-gray); line-height: 1.8; margin-bottom: 2rem;">
+                <li><span class="highlight">Toolbar:</span> Displays the application name.</li>
+                <li><span class="highlight">Session Counter:</span> Tracks total sessions specifically for the user name provided.</li>
+                <li><span class="highlight">Primary Buttons:</span> Easy access to marking attendance and exporting data.</li>
+                <li><span class="highlight">History List:</span> Scrollable list of all your training milestones.</li>
+            </ul>
+        </section>
+
+        <section id="data-management">
+            <h3>Data Management</h3>
+            
+            <div class="feature-card">
+                <h4><i class="fas fa-download"></i> Exporting Records</h4>
+                <p>Tap the <strong>"Export Record"</strong> button to save your entire history as a file. The app generates a <code>.txt</code> file containing a JSON formatted list of all your sessions.</p>
+                <p><strong>File Location:</strong> <code>Downloads/Aikido_Record_[Name]_[Timestamp].txt</code></p>
+            </div>
+
+            <div class="feature-card">
+                <h4><i class="fas fa-database"></i> Data Security</h4>
+                <p>Your data is stored locally on your device using a secure SQLite database. No data is sent to external servers, ensuring your privacy.</p>
+            </div>
+        </section>
+
+        <footer style="margin-top: 4rem; border-top: 1px solid #333; padding-top: 2rem; color: var(--text-gray); text-align: center;">
+            <p>&copy; 2026 Aikido Tracker CLC. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Smooth scrolling for sidebar links
+        document.querySelectorAll('.sidebar a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetSection.offsetTop,
+                    behavior: 'smooth'
+                });
+
+                // Update active state
+                document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+                this.classList.add('active');
+
+                // Close sidebar on mobile after click
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.sidebar').classList.remove('active');
+                }
+            });
+        });
+
+        // Highlight sidebar items on scroll
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const sections = document.querySelectorAll('section');
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('.sidebar a').forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('href').includes(current)) {
+                    a.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
